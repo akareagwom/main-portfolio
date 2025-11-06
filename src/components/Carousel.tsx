@@ -1,29 +1,50 @@
 import React, { useEffect, useRef, useState } from "react";
+import {
+  FaReact,
+  FaHtml5,
+  FaCss3Alt,
+  FaJsSquare,
+} from "react-icons/fa";
+import {
+  SiTailwindcss,
+  SiTypescript,
+  SiVite,
+  SiNextdotjs,
+  SiWebpack,
+} from "react-icons/si";
 
-type NumberCarouselProps = {
-  numbers?: number[]; // items to show (defaults to 0..9)
-  visible?: number; // how many numbers visible at once
-  interval?: number; // ms between moves
+type IconCarouselProps = {
+  visible?: number;
+  interval?: number;
   pauseOnHover?: boolean;
 };
 
-export default function NumberCarousel({
-  numbers = Array.from({ length: 10 }, (_, i) => i),
+export default function IconCarousel({
   visible = 3,
   interval = 1500,
   pauseOnHover = true,
-}: NumberCarouselProps) {
-  const [index, setIndex] = useState(0); // current slide index (0..n)
+}: IconCarouselProps) {
+  const icons = [
+    { id: "react", Icon: FaReact, label: "React" },
+    { id: "tailwind", Icon: SiTailwindcss, label: "Tailwind" },
+    { id: "typescript", Icon: SiTypescript, label: "TypeScript" },
+    { id: "vite", Icon: SiVite, label: "Vite" },
+    { id: "nextjs", Icon: SiNextdotjs, label: "Next.js" },
+    { id: "webpack", Icon: SiWebpack, label: "Webpack" },
+    { id: "html5", Icon: FaHtml5, label: "HTML5" },
+    { id: "css3", Icon: FaCss3Alt, label: "CSS3" },
+    { id: "javascript", Icon: FaJsSquare, label: "JavaScript" },
+  ];
+
+  const [index, setIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const [slideWidth, setSlideWidth] = useState(0);
   const transitionRef = useRef(true);
 
-  // We'll clone the first `visible` items at the end so the loop looks seamless
-  const list = [...numbers, ...numbers.slice(0, visible)];
-  const realLength = numbers.length;
+  const list = [...icons, ...icons.slice(0, visible)];
+  const realLength = icons.length;
 
-  // measure a slide width
   useEffect(() => {
     function measure() {
       if (!trackRef.current) return;
@@ -31,57 +52,35 @@ export default function NumberCarousel({
       if (!slide) return;
       setSlideWidth(slide.offsetWidth);
     }
-
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
   }, []);
 
-  // autoplay
   useEffect(() => {
     if (isPaused) return;
-    const t = setInterval(() => {
-      // increment index
-      setIndex((i) => i + 1);
-    }, interval);
+    const t = setInterval(() => setIndex((i) => i + 1), interval);
     return () => clearInterval(t);
   }, [isPaused, interval]);
 
-  // when we move to the cloned area (index >= realLength) we'll snap back to 0
   useEffect(() => {
     if (index === 0) return;
-
-    // if we've reached the clone point, after transition end we'll snap back to 0
     if (index >= realLength) {
-      // after the CSS transition completes we need to jump to index 0 without transition
       const onTransitionEnd = () => {
-        transitionRef.current = false; // temporarily disable transition
+        transitionRef.current = false;
         setIndex(0);
-        // re-enable transition on the next tick
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             transitionRef.current = true;
           });
         });
       };
-
       const el = trackRef.current;
       el?.addEventListener("transitionend", onTransitionEnd, { once: true });
-
-      // cleanup if unmounted mid-transition
       return () => el?.removeEventListener("transitionend", onTransitionEnd);
     }
   }, [index, realLength]);
 
-  // manual nav
-  const prev = () => {
-    setIndex((i) => (i - 1 + realLength) % realLength);
-  };
-  const next = () => {
-    setIndex((i) => i + 1);
-  };
-
-  // compute transform
   const translateX = -index * slideWidth;
 
   return (
@@ -91,9 +90,7 @@ export default function NumberCarousel({
       onMouseLeave={() => pauseOnHover && setIsPaused(false)}
     >
       <div className="relative">
-        {/* viewport */}
         <div className="overflow-hidden">
-          {/* track */}
           <div
             ref={trackRef}
             style={{
@@ -102,53 +99,19 @@ export default function NumberCarousel({
             }}
             className="flex items-center"
           >
-            {list.map((n, idx) => (
+            {list.map((item, idx) => (
               <div
                 key={idx}
                 data-slide
-                className={`flex-shrink-0 flex items-center justify-center h-24 md:h-28 lg:h-32 px-4 md:px-6 border rounded-lg mr-3 bg-white/80 dark:bg-gray-800/70 shadow-sm`}
+                className="flex-shrink-0 flex flex-col items-center justify-center h-28 md:h-32 lg:h-36 px-4 md:px-6 border rounded-xl mr-3 bg-white/80 dark:bg-gray-800/70 shadow-sm hover:scale-105 transition-transform"
                 style={{ minWidth: `${100 / visible}%` }}
               >
-                <div className="text-2xl md:text-3xl lg:text-4xl font-semibold">{n}</div>
+                <item.Icon className="text-4xl md:text-5xl lg:text-6xl mb-2" />
+                <span className="text-sm font-medium">{item.label}</span>
               </div>
             ))}
           </div>
         </div>
-
-        {/* controls */}
-        <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none">
-          <button
-            onClick={prev}
-            className="pointer-events-auto ml-1 p-2 rounded-full bg-white/90 dark:bg-gray-900/70 shadow hover:scale-105 transition-transform"
-            aria-label="Previous"
-          >
-            ‹
-          </button>
-        </div>
-
-        <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none">
-          <button
-            onClick={next}
-            className="pointer-events-auto mr-1 p-2 rounded-full bg-white/90 dark:bg-gray-900/70 shadow hover:scale-105 transition-transform"
-            aria-label="Next"
-          >
-            ›
-          </button>
-        </div>
-      </div>
-
-      {/* dots / indicator */}
-      <div className="mt-3 flex justify-center gap-2">
-        {numbers.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setIndex(i)}
-            className={`w-2 h-2 rounded-full ${
-              index % realLength === i ? "bg-gray-900 dark:bg-white" : "bg-gray-300 dark:bg-gray-600"
-            }`}
-            aria-label={`Go to slide ${i + 1}`}
-          />
-        ))}
       </div>
     </div>
   );
