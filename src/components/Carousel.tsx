@@ -103,7 +103,7 @@ export default function IconCarousel({
               <div
                 key={idx}
                 data-slide
-                className="flex-shrink-0 flex flex-col items-center justify-center h-28 md:h-32 lg:h-36 px-4 md:px-6 border rounded-xl mr-3 bg-white/80 dark:bg-gray-800/70 shadow-sm hover:scale-105 transition-transform"
+                className="flex-shrink-0 flex flex-col items-center justify-center h-16 md:h-18 lg:h-24 px-4 md:px-6 mr-3 bg-white/80  shadow-sm hover:scale-105 transition-transform"
                 style={{ minWidth: `${100 / visible}%` }}
               >
                 <item.Icon className="text-4xl md:text-5xl lg:text-6xl mb-2" />

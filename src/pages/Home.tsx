@@ -13,7 +13,7 @@ const Home =()=>{
             <div className="flex gap-4 py-4">
                 <button className="bg-black text-white rounded-[10px] w-[100px] p-2">Hire Me!</button>
                 <div className=" bg-[#E1F9DC] text-[#178D00] rounded-full border-1 w-[200px] text-center border-lime-500 p-2">
-                    <p>hello I'm available</p>
+                    <p>Ready to Collaborate</p>
                 </div>
             </div>
             <div className="">
