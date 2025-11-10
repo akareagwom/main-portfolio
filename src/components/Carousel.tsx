@@ -85,7 +85,7 @@ export default function IconCarousel({
 
   return (
     <div
-      className="w-full max-w-xl mx-auto p-4"
+      className="w-full max-w-xl mx-auto py-8 px-24"
       onMouseEnter={() => pauseOnHover && setIsPaused(true)}
       onMouseLeave={() => pauseOnHover && setIsPaused(false)}
     >
@@ -103,11 +103,11 @@ export default function IconCarousel({
               <div
                 key={idx}
                 data-slide
-                className="flex-shrink-0 flex flex-col items-center justify-center h-16 md:h-18 lg:h-24 px-4 md:px-6 mr-3 bg-white/80  shadow-sm hover:scale-105 transition-transform"
+                className="flex-shrink-0 flex flex-col items-center justify-center h-6 md:h-8 lg:h-10 px-4 md:px-2  bg-white/80  hover:scale-105 transition-transform"
                 style={{ minWidth: `${100 / visible}%` }}
               >
                 <item.Icon className="text-4xl md:text-5xl lg:text-6xl mb-2" />
-                <span className="text-sm font-medium">{item.label}</span>
+                {/* <span className="text-sm font-medium">{item.label}</span> */}
               </div>
             ))}
           </div>
