@@ -3,6 +3,7 @@
 import Navbar from "./components/Navbar";
 import About from "./pages/About";
 import Home from "./pages/Home";
+import Projects from "./pages/Projects";
 
 function App() {
  
@@ -18,6 +19,9 @@ function App() {
       <div className="">
         {/* about section */}
         <About/>
+      </div>
+      <div className="">
+        <Projects/>
       </div>
     </div>
   );
