@@ -2,16 +2,42 @@
   {
     "id": 1,
     "title": "React",
-    "description": "A JavaScript library for building user interfaces"
-  },
+    "description": "A JavaScript library for building user interfaces",
+    "prolink": "https://recycledlearning.com/"
+  }
+  ,
   {
     "id": 2,
     "title": "TypeScript",
-    "description": "A strongly typed programming language built on JavaScript"
-  },
+    "description": "A strongly typed programming language built on JavaScript",
+    "prolink": "https://recycledlearning.com/"
+  }
+  ,
   {
     "id": 3,
     "title": "Chakra UI",
-    "description": "A simple, modular and accessible component library"
+    "description": "A simple, modular and accessible component library",
+    "prolink": "https://recycledlearning.com/"
+  },
+  {
+    "id": 1,
+    "title": "React",
+    "description": "A JavaScript library for building user interfaces",
+    "prolink": "https://recycledlearning.com/"
   }
+  ,
+  {
+    "id": 2,
+    "title": "TypeScript",
+    "description": "A strongly typed programming language built on JavaScript",
+    "prolink": "https://recycledlearning.com/"
+  }
+  ,
+  {
+    "id": 3,
+    "title": "Chakra UI",
+    "description": "A simple, modular and accessible component library",
+    "prolink": "https://recycledlearning.com/"
+  }
+
 ]
